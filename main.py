@@ -87,7 +87,7 @@ class RemoteFSManager(object):
         diff_dirs = list()
         for photo_dir1 in photo_dirs1:
             if photo_dir1 not in photo_dirs2:
-                logging.debug("Pending for upload:", photo_dir1)
+                logging.debug("Pending for upload: {dir}".format(dir=photo_dir1))
                 diff_dirs.append(photo_dir1)
         return diff_dirs
 
@@ -138,6 +138,7 @@ class UploadManager(object):
             dir = dirs[i]
             selection.append(dir)
             print dir
+        return selection
 
     def process(self):
         local_photo_dirs = local_fs.get_photo_dirs()
@@ -159,7 +160,7 @@ class UploadManager(object):
             local_photos = local_fs.get_photos(local_photo_dir)
             # Upload all photos from pending folder
             for photo, mimetype in local_photos:
-                logging.debug("Uploading:", photo)
+                logging.debug("Uploading: {file}".format(file=photo))
                 remote_fs.upload_photo(photo, mimetype, remote_dir)
 
 
