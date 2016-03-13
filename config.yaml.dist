@@ -1,0 +1,3 @@
+remote_photos_root: ''
+local_photos_root: '~/Photos'
+photo_dir_regex: '\d{8} .*'
