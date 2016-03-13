@@ -34,7 +34,8 @@ class LocalFSManager(object):
             if os.path.isdir(
                     os.path.join(self.root_dir, o)) and is_photo_dir(o):
                 photo_dirs.add(o)
-        logging.info("Found {dirs} photo directories".format(dirs=len(photo_dirs)))
+        logging.info(
+            "Found {dirs} photo directories".format(dirs=len(photo_dirs)))
         return photo_dirs
 
     def get_photos(self, photo_dir):
@@ -58,6 +59,8 @@ class RemoteFSManager(object):
     # Auto-iterate through all files that matches this query
     # https://developers.google.com/drive/web/search-parameters
 
+    MIME_FOLDER = 'application/vnd.google-apps.folder'
+
     def __init__(self, root_dir):
         self.root_dir = root_dir
         self.drive = self._get_drive_conn()
@@ -72,8 +75,8 @@ class RemoteFSManager(object):
     def get_photo_dirs(self):
         photo_dirs = dict()
         file_list = self.drive.ListFile({
-            'q': "'%s' in parents and trashed=false and mimeType='application/vnd.google-apps.folder'" % (
-                self.root_dir)
+            'q': "'%s' in parents and trashed=false and mimeType='%s'" % (
+                self.root_dir, self.MIME_FOLDER)
             }).GetList()
         for remote_item in file_list:
             photo_id = remote_item['id']
